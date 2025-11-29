@@ -5,8 +5,7 @@ import logo from "../../assets/logo.jpeg";
 
 const nav = [
   { to: "/admin", label: "Dashboard", icon: <FaChartLine /> },
-  { to: "/admin/advisory", label: "Advisory", icon: <FaUserMd /> },
-  { to: "/admin/inventory", label: "Inventory", icon: <FaCog /> },
+  { to: "/admin/inventory", label: "Staff Planner", icon: <FaCog /> },
 ];
 
 export default function Sidebar() {
