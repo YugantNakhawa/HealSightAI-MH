@@ -1,0 +1,79 @@
+{
+  "models": {
+    "q50": {
+      "path": "C:\\Users\\ANIKET VISHWAKARMA\\My project\\HealsightAI\\lgb_q50.txt",
+      "info": {
+        "fold_scores": [
+          3.575652350160157,
+          1.5886562745683932,
+          1.349595827993549
+        ],
+        "avg_iter": 140
+      }
+    },
+    "q90": {
+      "path": "C:\\Users\\ANIKET VISHWAKARMA\\My project\\HealsightAI\\lgb_q90.txt",
+      "info": {
+        "fold_scores": [
+          3.7031695683220964,
+          1.3349240419398358,
+          1.0563595232950505
+        ],
+        "avg_iter": 382
+      }
+    }
+  },
+  "feature_cols": [
+    "day_of_week",
+    "is_weekend",
+    "aqi",
+    "temperature_c",
+    "accident_count",
+    "bed_count",
+    "staff_required_total",
+    "Antibiotic",
+    "Analgesic",
+    "Antipyretic",
+    "Respiratory",
+    "Cardiovascular",
+    "Diabetes",
+    "Gastrointestinal",
+    "Anti-allergic",
+    "ORS",
+    "PPE",
+    "day",
+    "month",
+    "year",
+    "weekofyear",
+    "festival_main",
+    "fest_RepublicDay",
+    "fest_Holi",
+    "fest_GaneshChaturthi",
+    "fest_Navratri",
+    "fest_Diwali",
+    "fest_Christmas",
+    "fest_Eid",
+    "fest_OtherFestival",
+    "nurses_required",
+    "doctors_required",
+    "support_required",
+    "patient_count_lag_1",
+    "patient_count_lag_2",
+    "patient_count_lag_3",
+    "patient_count_lag_7",
+    "patient_count_lag_14",
+    "patient_count_rmean_3",
+    "patient_count_rstd_3",
+    "patient_count_rmean_7",
+    "patient_count_rstd_7",
+    "patient_count_rmean_14",
+    "patient_count_rstd_14",
+    "aqi_lag_1",
+    "aqi_lag_2",
+    "aqi_lag_3",
+    "temp_lag_1",
+    "temp_lag_2",
+    "temp_lag_3"
+  ],
+  "date_trained": "2025-11-23T12:27:19.851696"
+}

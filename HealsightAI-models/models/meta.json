@@ -1,0 +1,85 @@
+{
+  "trained_at": "2025-11-23T16:10:04.275052",
+  "models": {
+    "patient_count": {
+      "target": "patient_count",
+      "path": "patient_count/model.txt",
+      "iters": 72
+    },
+    "bed_count": {
+      "target": "bed_count",
+      "path": "bed_count/model.txt",
+      "iters": 72
+    },
+    "staff_required_total": {
+      "target": "staff_required_total",
+      "path": "staff_required_total/model.txt",
+      "iters": 72
+    },
+    "accident_count": {
+      "target": "accident_count",
+      "path": "accident_count/model.txt",
+      "iters": 36
+    },
+    "nurses_required": {
+      "target": "nurses_required",
+      "path": "nurses_required/model.txt",
+      "iters": 65
+    },
+    "doctors_required": {
+      "target": "doctors_required",
+      "path": "doctors_required/model.txt",
+      "iters": 64
+    },
+    "support_required": {
+      "target": "support_required",
+      "path": "support_required/model.txt",
+      "iters": 65
+    },
+    "Antibiotic": {
+      "target": "Antibiotic",
+      "path": "Antibiotic/model.txt",
+      "iters": 61
+    },
+    "Analgesic": {
+      "target": "Analgesic",
+      "path": "Analgesic/model.txt",
+      "iters": 57
+    },
+    "Antipyretic": {
+      "target": "Antipyretic",
+      "path": "Antipyretic/model.txt",
+      "iters": 19
+    },
+    "Respiratory": {
+      "target": "Respiratory",
+      "path": "Respiratory/model.txt",
+      "iters": 88
+    },
+    "Cardiovascular": {
+      "target": "Cardiovascular",
+      "path": "Cardiovascular/model.txt",
+      "iters": 28
+    },
+    "Diabetes": {
+      "target": "Diabetes",
+      "path": "Diabetes/model.txt",
+      "iters": 48
+    },
+    "Gastrointestinal": {
+      "target": "Gastrointestinal",
+      "path": "Gastrointestinal/model.txt",
+      "iters": 37
+    },
+    "Anti-allergic": {
+      "target": "Anti-allergic",
+      "path": "Anti-allergic/model.txt",
+      "iters": 44
+    },
+    "ORS": {
+      "target": "ORS",
+      "path": "ORS/model.txt",
+      "iters": 49
+    }
+  }
+}

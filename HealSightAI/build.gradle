@@ -1,0 +1,58 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.5.7'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.myproject'
+version = '0.0.1-SNAPSHOT'
+description = 'hospitalManagement project for Spring Boot'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(25)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// --- Core Web (Reactive) ---
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	// --- Kafka Messaging ---
+	implementation 'org.springframework.kafka:spring-kafka'
+	
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	// --- Database (JPA + SQL) ---
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	
+	// BCrypt (part of Spring Security Crypto)
+	implementation 'org.springframework.security:spring-security-crypto'
+	
+	// JWT
+	implementation 'com.auth0:java-jwt:4.4.0'
+	
+	runtimeOnly 'com.mysql:mysql-connector-j'    // use H2 if you want in-memory DB for testing
+	// runtimeOnly 'com.h2database:h2'
+
+	// --- Lombok (for cleaner code) ---
+	compileOnly 'org.projectlombok:lombok:1.18.42'
+	annotationProcessor 'org.projectlombok:lombok:1.18.42'
+
+	// --- Dev Tools (optional, for live reload) ---
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	// --- Testing ---
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
