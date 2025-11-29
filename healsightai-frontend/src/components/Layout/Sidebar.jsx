@@ -1,23 +1,32 @@
 import React from "react";
-import { FaChartLine, FaUsers, FaCalendarAlt, FaUserMd, FaCog } from "react-icons/fa";
-import { Link, useLocation } from "react-router-dom";
-import logo from "../../assets/logo.jpeg"; // ✅ Add your logo path here
+import { FaChartLine, FaUserMd, FaCog, FaSignOutAlt } from "react-icons/fa";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import logo from "../../assets/logo.jpeg";
 
 const nav = [
   { to: "/admin", label: "Dashboard", icon: <FaChartLine /> },
-  { to: "/admin/patients", label: "Patients", icon: <FaUsers /> },
-  { to: "/admin/appointments", label: "Appointments", icon: <FaCalendarAlt /> },
-  { to: "/admin/staff-planner", label: "Staff Planner", icon: <FaUserMd /> },
-  { to: "/admin/settings", label: "Settings", icon: <FaCog /> },
+  { to: "/admin/advisory", label: "Advisory", icon: <FaUserMd /> },
+  { to: "/admin/inventory", label: "Inventory", icon: <FaCog /> },
 ];
 
 export default function Sidebar() {
   const loc = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("email");
+    navigate("/login");
+  };
 
   return (
     <aside className="w-72 bg-[#00797C] text-white shadow-lg min-h-screen flex flex-col justify-between">
+
+      {/* TOP SECTION */}
       <div className="p-6">
-        {/* LOGO + BRAND */}
+        
+        {/* Logo + Title */}
         <div className="flex items-center gap-3 mb-8">
           <img src={logo} alt="HealSightAI" className="w-10 h-10 rounded-md" />
           <div>
@@ -26,7 +35,7 @@ export default function Sidebar() {
           </div>
         </div>
 
-        {/* NAVIGATION */}
+        {/* Navigation Links */}
         <nav className="space-y-1">
           {nav.map((n) => (
             <Link
@@ -43,6 +52,19 @@ export default function Sidebar() {
             </Link>
           ))}
         </nav>
+      </div>
+
+      {/* BOTTOM SECTION */}
+      <div className="px-6 mb-4">
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center justify-center gap-2 
+                     bg-red-600 hover:bg-red-700 
+                     rounded-md text-white text-sm py-2"
+        >
+          <FaSignOutAlt className="text-sm" />
+          Logout
+        </button>
       </div>
 
       <div className="p-4 text-xs text-center text-white/60 border-t border-white/10">

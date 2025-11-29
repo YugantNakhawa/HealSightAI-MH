@@ -3,21 +3,15 @@ import Login from "./components/Login";
 import AdminDashboard from "./pages/AdminDashboard";
 import DoctorDashboard from "./pages/DoctorDashboard";
 import StaffDashboard from "./pages/StaffDashboard";
+import InventoryDashboard from "./pages/InventoryDashboard"; // ✅ Import it
 
 // ✅ Protected Route Wrapper
 function ProtectedRoute({ children, role }) {
   const token = localStorage.getItem("token");
-  const userRole = localStorage.getItem("role")?.toUpperCase(); // normalize to uppercase
+  const userRole = localStorage.getItem("role")?.toUpperCase();
 
-  // 🔒 If no token → redirect to login
-  if (!token) {
-    return <Navigate to="/" replace />;
-  }
-
-  // 🚫 If role doesn’t match → redirect to login
-  if (role && role !== userRole) {
-    return <Navigate to="/" replace />;
-  }
+  if (!token) return <Navigate to="/" replace />;
+  if (role && role !== userRole) return <Navigate to="/" replace />;
 
   return children;
 }
@@ -27,10 +21,11 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Login Page */}
+
+        {/* LOGIN */}
         <Route path="/" element={<Login />} />
 
-        {/* Admin Dashboard */}
+        {/* ADMIN DASHBOARD */}
         <Route
           path="/admin"
           element={
@@ -40,7 +35,17 @@ function App() {
           }
         />
 
-        {/* Doctor Dashboard */}
+        {/* ⭐ NEW — ADMIN INVENTORY PAGE ⭐ */}
+        <Route
+          path="/admin/inventory"
+          element={
+            <ProtectedRoute role="ADMIN">
+              <InventoryDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* DOCTOR DASHBOARD */}
         <Route
           path="/doctor"
           element={
@@ -50,7 +55,7 @@ function App() {
           }
         />
 
-        {/* Staff Dashboard */}
+        {/* STAFF DASHBOARD */}
         <Route
           path="/staff"
           element={
@@ -60,8 +65,9 @@ function App() {
           }
         />
 
-        {/* Any unknown route → go to login */}
+        {/* ANY UNKNOWN ROUTE */}
         <Route path="*" element={<Navigate to="/" replace />} />
+
       </Routes>
     </Router>
   );

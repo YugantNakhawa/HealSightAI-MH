@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";   // <--- Added
 import DashboardLayout from "../components/Layout/DashboardLayout";
 import StatCard from "../components/ui/StatCard";
 import LineAreaChart from "../components/charts/LineAreaChart";
 import api from "../api/api";
 
 export default function AdminDashboard() {
+  const navigate = useNavigate();   // <--- Added
+
   const [doctors, setDoctors] = useState([]);
   const [staff, setStaff] = useState([]);
   const [appointments, setAppointments] = useState([]);
@@ -14,6 +17,14 @@ export default function AdminDashboard() {
 
   const [temperature, setTemperature] = useState(null);
   const [aqi, setAqi] = useState(null);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("email");
+
+    navigate("/login");
+  };
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -31,10 +42,9 @@ export default function AdminDashboard() {
       }
     };
 
-    // 🌤 Fetch real-time temperature + AQI from backend
     const fetchRealtime = async () => {
       try {
-        const res = await api.get("/test/realtime"); // <--- UPDATED
+        const res = await api.get("/test/realtime");
         const data = res.data;
 
         setTemperature(data.temperatureC);
@@ -44,22 +54,20 @@ export default function AdminDashboard() {
       }
     };
 
-    // 🤖 Fetch AI Predictions (7 days)
     const fetchPredictions = async () => {
       try {
-        const res = await api.get("/test/predict7"); // <--- UPDATED
+        const res = await api.get("/test/predict7");
         const dataArray = res.data.forecast_7_days || [];
 
-        // ====== Chart data for patient inflow ======
         const chartData = dataArray.map((item) => ({
           name: new Date(item.date).toLocaleDateString("en-US", {
             weekday: "short",
           }),
           value: Math.round(item.predictions.patient_count),
         }));
-        setPredictionData(chartData.length ? chartData : samplePrediction());
+        setPredictionData(chartData);
 
-        // ====== Medicine weekly averages ======
+        // Medicine weekly avg calculation
         if (dataArray.length) {
           const totals = {};
           const counts = {};
@@ -96,7 +104,6 @@ export default function AdminDashboard() {
         }
       } catch (err) {
         console.error("Prediction fetch error:", err);
-        setPredictionData(samplePrediction());
       }
     };
 
@@ -105,23 +112,21 @@ export default function AdminDashboard() {
     fetchPredictions();
   }, []);
 
-  const samplePrediction = () => [
-    { name: "Mon", value: 80 },
-    { name: "Tue", value: 95 },
-    { name: "Wed", value: 110 },
-    { name: "Thu", value: 105 },
-    { name: "Fri", value: 140 },
-    { name: "Sat", value: 170 },
-    { name: "Sun", value: 150 },
-  ];
-
   return (
-    <DashboardLayout title="Admin Dashboard">
-
+    <DashboardLayout
+      title="Admin Dashboard"
+      extra={
+        <button
+          onClick={handleLogout}
+          className="mt-4 w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition"
+        >
+          Logout
+        </button>
+      }
+    >
       {/* ---- TOP STATS ROW ---- */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
 
-        {/* Temperature */}
         <StatCard
           title="Temperature (°C)"
           value={temperature !== null ? temperature.toFixed(1) : "Loading..."}
@@ -132,7 +137,6 @@ export default function AdminDashboard() {
           </div>
         </StatCard>
 
-        {/* AQI */}
         <StatCard
           title="Pollution AQI"
           value={aqi !== null ? aqi : "Loading..."}
@@ -149,7 +153,6 @@ export default function AdminDashboard() {
           </div>
         </StatCard>
 
-        {/* Predicted Inflow */}
         <StatCard
           title="Predicted Inflow (next 7d)"
           value={
@@ -167,7 +170,6 @@ export default function AdminDashboard() {
           </div>
         </StatCard>
 
-        {/* Top Medicine */}
         <StatCard
           title="Top Medicine (7d)"
           value={topMedicine ? topMedicine.name : "Calculating..."}
@@ -213,8 +215,6 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
-
-      
     </DashboardLayout>
   );
 }

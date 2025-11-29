@@ -63,4 +63,31 @@ public class PredictorService {
                 .retrieve()
                 .bodyToMono(Object.class);
     }
+    
+    public Mono<Object> predictForDate(RealTimeData data, LocalDate date) {
+
+        int dayOfWeek = date.getDayOfWeek().getValue();
+        int isWeekend = (dayOfWeek == 6 || dayOfWeek == 7) ? 1 : 0;
+        int weekOfYear = date.get(WeekFields.of(Locale.getDefault()).weekOfYear());
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("day_of_week", dayOfWeek);
+        body.put("is_weekend", isWeekend);
+        body.put("festival_enc", 0);
+        body.put("is_festival", 0);
+        body.put("aqi", data.getAqi());
+        body.put("temperature_c", data.getTemperatureC());
+
+        body.put("day", date.getDayOfMonth());
+        body.put("month", date.getMonthValue());
+        body.put("year", date.getYear());
+        body.put("weekofyear", weekOfYear);
+
+        return webClient.post()
+                .uri("/predict")
+                .bodyValue(body)
+                .retrieve()
+                .bodyToMono(Object.class);
+    }
+
 }

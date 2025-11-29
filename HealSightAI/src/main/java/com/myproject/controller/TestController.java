@@ -4,9 +4,12 @@ import com.myproject.dto.RealTimeData;
 import com.myproject.service.RealTimeService;
 import com.myproject.service.PredictorService;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import reactor.core.publisher.Mono;
@@ -19,30 +22,35 @@ public class TestController {
     private PredictorService predictorService;
 
     @Autowired
-    private RealTimeService realTimeService;   // <-- NEW
+    private RealTimeService realTimeService;
 
+    // ✔ Predict for today's date
     @GetMapping("/predict")
     public Mono<Object> testPrediction() {
-
-        // fetch real-time temperature + AQI
         RealTimeData liveData = realTimeService.getRealtimeData();
-
-        // pass realtime data into predictor
         return predictorService.predictNow(liveData);
     }
-    
+
+    // ✔ Predict for next 7 days
     @GetMapping("/predict7")
     public Mono<Object> predict7() {
-
-        // fetch real-time temperature + AQI
         RealTimeData liveData = realTimeService.getRealtimeData();
-
-        // pass realtime data into predictor
         return predictorService.predict7Days(liveData);
     }
-    
+
+    // ✔ Get realtime AQI + Temperature
     @GetMapping("/realtime")
     public RealTimeData getRealtime() {
         return realTimeService.getRealtimeData();
+    }
+
+    // ✔ NEW: Predict for chosen date
+    @GetMapping("/predict-by-date")
+    public Mono<Object> predictForDate(@RequestParam("date") String date) {
+
+        LocalDate parsedDate = LocalDate.parse(date);
+        RealTimeData liveData = realTimeService.getRealtimeData();
+
+        return predictorService.predictForDate(liveData, parsedDate);
     }
 }

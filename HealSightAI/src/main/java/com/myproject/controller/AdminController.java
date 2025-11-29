@@ -64,6 +64,11 @@ public class AdminController {
     public Appointment addAppointment(@RequestBody Appointment appointment) {
         return appointmentRepository.save(appointment);
     }
+    
+    @GetMapping("/inventory")
+    public String inventoryPage() {
+        return "Inventory API active";
+    }
 
   
 }
